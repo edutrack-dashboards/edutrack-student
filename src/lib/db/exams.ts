@@ -16,7 +16,7 @@ function mapRow(row: Record<string, unknown>): Exam {
 
 export async function getMyExams(): Promise<Exam[]> {
   const student = await getCurrentStudent();
-  if (student.classIds.length === 0) return [];
+  if (!student || student.classIds.length === 0) return [];
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -43,7 +43,7 @@ export async function getMyExamsByClass(classId: string): Promise<Exam[]> {
 
 export async function getUpcomingExams(): Promise<Exam[]> {
   const student = await getCurrentStudent();
-  if (student.classIds.length === 0) return [];
+  if (!student || student.classIds.length === 0) return [];
 
   const today = new Date().toISOString().split("T")[0];
   const supabase = await createClient();

@@ -8,9 +8,12 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const student = await getCurrentStudent();
+  const studentName = student
+    ? getStudentFullName(student.firstName, student.lastName)
+    : "Student";
 
   return (
-    <DashboardShell studentName={getStudentFullName(student.firstName, student.lastName)}>
+    <DashboardShell studentName={studentName}>
       {children}
     </DashboardShell>
   );

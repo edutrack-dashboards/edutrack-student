@@ -18,7 +18,7 @@ function mapRow(row: Record<string, unknown>): Student {
   };
 }
 
-export async function getCurrentStudent(): Promise<Student> {
+export async function getCurrentStudent(): Promise<Student | null> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
@@ -30,7 +30,7 @@ export async function getCurrentStudent(): Promise<Student> {
     .single();
 
   if (error || !data) {
-    throw new Error("Student record not found. Please contact your school administrator.");
+    return null;
   }
 
   return mapRow(data);

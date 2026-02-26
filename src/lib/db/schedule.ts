@@ -15,7 +15,7 @@ function mapRow(row: Record<string, unknown>): ScheduleItem {
 
 export async function getMyScheduleForDay(dayOfWeek: number): Promise<ScheduleItem[]> {
   const student = await getCurrentStudent();
-  if (student.classIds.length === 0) return [];
+  if (!student || student.classIds.length === 0) return [];
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -36,7 +36,7 @@ export async function getMyTodaySchedule(): Promise<ScheduleItem[]> {
 
 export async function getMyWeekSchedule(): Promise<ScheduleItem[]> {
   const student = await getCurrentStudent();
-  if (student.classIds.length === 0) return [];
+  if (!student || student.classIds.length === 0) return [];
 
   const supabase = await createClient();
   const { data, error } = await supabase

@@ -16,6 +16,7 @@ function mapRow(row: Record<string, unknown>): GradeEntry {
 
 export async function getMyGrades(): Promise<GradeEntry[]> {
   const student = await getCurrentStudent();
+  if (!student) return [];
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("grade_entries")
@@ -29,6 +30,7 @@ export async function getMyGrades(): Promise<GradeEntry[]> {
 
 export async function getMyGradesByClass(classId: string): Promise<GradeEntry[]> {
   const student = await getCurrentStudent();
+  if (!student) return [];
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("grade_entries")
@@ -43,6 +45,7 @@ export async function getMyGradesByClass(classId: string): Promise<GradeEntry[]>
 
 export async function getMyAverageGrade(classId?: string): Promise<number | null> {
   const student = await getCurrentStudent();
+  if (!student) return null;
   const supabase = await createClient();
 
   let query = supabase

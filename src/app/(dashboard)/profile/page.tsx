@@ -23,8 +23,33 @@ import {
 } from "lucide-react";
 
 export default async function ProfilePage() {
-  const [student, classes, gpa, attendanceRate] = await Promise.all([
-    getCurrentStudent(),
+  const student = await getCurrentStudent();
+
+  if (!student) {
+    return (
+      <div className="mx-auto max-w-3xl">
+        <div className="rounded-xl border border-blue-200 bg-blue-50 p-8 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
+            <User className="h-8 w-8 text-blue-600" />
+          </div>
+          <h2 className="text-lg font-semibold text-blue-900">Profile Not Available Yet</h2>
+          <p className="mt-2 text-sm text-blue-700">
+            Your student profile will be available once your school administrator completes your enrollment.
+          </p>
+        </div>
+        <form action={signOut} className="mt-6">
+          <button
+            type="submit"
+            className="w-full rounded-xl border border-red-200 bg-white px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+          >
+            Sign Out
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  const [classes, gpa, attendanceRate] = await Promise.all([
     getStudentClasses(),
     getMyAverageGrade(),
     getMyAttendanceRate(),

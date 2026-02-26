@@ -3,6 +3,7 @@ import { StatCards } from "@/components/dashboard/stat-cards";
 import { TodaySchedule } from "@/components/dashboard/today-schedule";
 import { UpcomingExams } from "@/components/dashboard/upcoming-exams";
 import { RecentGrades } from "@/components/dashboard/recent-grades";
+import { NotEnrolled } from "@/components/dashboard/not-enrolled";
 import {
   getCurrentStudent,
   getStudentClasses,
@@ -16,9 +17,14 @@ import {
 import { getStudentFullName } from "@/lib/utils";
 
 export default async function DashboardPage() {
-  const [student, classes, gpa, attendanceRate, upcomingExams, todaySchedule, allGrades] =
+  const student = await getCurrentStudent();
+
+  if (!student) {
+    return <NotEnrolled />;
+  }
+
+  const [classes, gpa, attendanceRate, upcomingExams, todaySchedule, allGrades] =
     await Promise.all([
-      getCurrentStudent(),
       getStudentClasses(),
       getMyAverageGrade(),
       getMyAttendanceRate(),

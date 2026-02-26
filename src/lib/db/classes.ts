@@ -18,7 +18,7 @@ function mapRow(row: Record<string, unknown>): Class {
 
 export async function getStudentClasses(): Promise<Class[]> {
   const student = await getCurrentStudent();
-  if (student.classIds.length === 0) return [];
+  if (!student || student.classIds.length === 0) return [];
 
   const supabase = await createClient();
   const { data, error } = await supabase

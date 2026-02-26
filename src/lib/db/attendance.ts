@@ -15,6 +15,7 @@ function mapRow(row: Record<string, unknown>): AttendanceRecord {
 
 export async function getMyAttendance(): Promise<AttendanceRecord[]> {
   const student = await getCurrentStudent();
+  if (!student) return [];
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("attendance_records")
@@ -28,6 +29,7 @@ export async function getMyAttendance(): Promise<AttendanceRecord[]> {
 
 export async function getMyAttendanceByClass(classId: string): Promise<AttendanceRecord[]> {
   const student = await getCurrentStudent();
+  if (!student) return [];
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("attendance_records")

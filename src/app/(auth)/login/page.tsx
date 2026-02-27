@@ -29,6 +29,21 @@ export default function LoginPage() {
       return;
     }
 
+    // Verify the user has a student account before redirecting
+    const { data: { user } } = await supabase.auth.getUser();
+    const { data: account } = await supabase
+      .from("students")
+      .select("id")
+      .eq("auth_id", user!.id)
+      .single();
+
+    if (!account) {
+      await supabase.auth.signOut();
+      setError("No student account found for this email. This portal is for students only.");
+      setLoading(false);
+      return;
+    }
+
     router.push("/");
     router.refresh();
   }
